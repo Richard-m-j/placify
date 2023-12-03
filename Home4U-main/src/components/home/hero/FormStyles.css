@@ -1,0 +1,47 @@
+/* FormStyles.css */
+
+.flex {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .box span {
+    font-weight: bold;
+  }
+  
+  .box input[type="text"], .box input[type="radio"] {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .additional {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .btnmore, .btn1 {
+    padding: 10px 10px;
+    border-radius: 50px;
+    border: none;
+    background-color: #ff005d;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .btn1 {
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }

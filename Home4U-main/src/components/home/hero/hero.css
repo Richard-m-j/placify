@@ -1,0 +1,106 @@
+.hero {
+  background-image: url("../../../../public/images/banner.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  min-height: 100vh;
+  /* Ensure a minimum height of 100% of the viewport height */
+  width: 100%;
+}
+
+.hero .container {
+  padding-top: 15%;
+}
+
+.hero h1 {
+  color: #fff3fd;
+  font-size: 60px;
+}
+
+.hero p {
+  color: #fff3fd;
+  opacity: 0.8;
+}
+
+form {
+  background-color: #fff3fd;
+  border-radius: 20px;
+  margin-top: 50px;
+  padding: 0 20px;
+  display: flex;
+  flex-wrap: wrap;
+  /* Allow the form items to wrap to the next line on smaller screens */
+}
+
+form input {
+  padding: 10px;
+  width: calc(100% - 20px);
+  /* Adjust the width to accommodate padding */
+  border: 1px solid rgba(128, 128, 128, 0.2);
+  margin-top: 5px;
+  border-radius: 5px;
+}
+
+form span {
+  font-size: 14px;
+  color: grey;
+}
+
+input::placeholder {
+  font-size: 17px;
+  color: black;
+}
+
+form .box {
+  padding: 15px;
+  border-left: 1px solid rgba(128, 128, 128, 0.2);
+  width: 30rem;
+}
+
+form .box:nth-child(1) {
+  border-left: none;
+}
+
+form .box:nth-child(3) {
+  width: 300px;
+}
+
+form h4 {
+  font-weight: 500;
+}
+
+.btnmore {
+  background-color: #ffffff;
+  color: black;
+  padding: 0px;
+  padding-right: 2rem;
+}
+
+.additional {
+  display: flex;
+  flex-wrap: wrap;
+  /* Allow the additional items to wrap to the next line on smaller screens */
+  align-items: center;
+}
+
+/* Style adjustments for smaller screens */
+@media screen and (max-width: 800px) {
+  .hero .container {
+    padding-top: 30%;
+  }
+
+  form .box {
+    border-left: none;
+    width: 100%;
+    /* Make the boxes take full width on smaller screens */
+  }
+
+  form input {
+    width: 100%;
+  }
+
+  form .additional {
+    flex-direction: column;
+    /* Stack items vertically on smaller screens */
+  }
+}
