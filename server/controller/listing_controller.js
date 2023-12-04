@@ -7,7 +7,7 @@ const create_listing = async (req, res, next) => {
         const client = await pool.connect();
         const { name, location, type, price_per_sqft, user_uid, image_urls, description, bedrooms, bathrooms, area_sqft, year_built } = req.body;
         console.log(req.body);
-        const newListingQuery = `INSERT INTO listing (name, location, type, price_per_sqft, user_uid, image_urls, description, bedrooms, bathrooms, area_sqft, year_built) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`;
+        const newListingQuery = `INSERT INTO jobs (name, location, type, price_per_sqft, user_uid, image_urls, description, bedrooms, bathrooms, area_sqft, year_built) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`;
         await client.query(newListingQuery, [name, location, type, price_per_sqft, user_uid, image_urls, description, bedrooms, bathrooms, area_sqft, year_built]);
         client.release();
         res.status(201).json({ message: 'Listing created successfully' });
@@ -76,57 +76,52 @@ const search_listings = async (req, res, next) => {
     try {
         console.log(req.query);
 
-        const { location, type, bathrooms, bedrooms, year_built, price_per_sqft, area_sqft } = req.query;
-        let queryText = 'SELECT * FROM listing WHERE';
+        // const { location, type, bathrooms, bedrooms, year_built, price_per_sqft, area_sqft } = req.query;
+        const { skills , branch } = req.query;
+        let queryText = 'SELECT * FROM jobs WHERE';
         let queryParams = [];
         let addAnd = false;
+        const client = await pool.connect();
 
-        if (location) {
-            queryParams.push(location);
-            queryText += ` location = $${queryParams.length}`;
-            addAnd = true;
-        }
-
-        if (type) {
+        if (branch) {
             if (addAnd) queryText += ' AND';
             queryParams.push(type);
             queryText += ` type = $${queryParams.length}`;
             addAnd = true;
         }
 
-        if (bathrooms) {
+        if (skills) {
             if (addAnd) queryText += ' AND';
-            queryParams.push(bathrooms);
-            queryText += ` bathrooms = $${queryParams.length}`;
+            queryParams.push(skills);
+            queryText += ` skills = $${queryParams.length}`;
             addAnd = true;
         }
-        if (bedrooms) {
-            if (addAnd) queryText += ' AND';
-            queryParams.push(bedrooms);
-            queryText += ` bedrooms = $${queryParams.length}`;
-            addAnd = true;
-        }
-        if (year_built) {
-            if (addAnd) queryText += ' AND';
-            queryParams.push(year_built);
-            queryText += ` year_built = $${queryParams.length}`;
-            addAnd = true;
-        }
-        if (area_sqft) {
-            if (addAnd) queryText += ' AND';
-            queryParams.push(area_sqft);
-            queryText += ` area_sqft = $${queryParams.length}`;
-            addAnd = true;
-        }
-        if (price_per_sqft) {
-            if (addAnd) queryText += ' AND';
-            queryParams.push(price_per_sqft);
-            queryText += ` price_per_sqft = $${queryParams.length}`;
-            addAnd = true;
-        }
+        // if (bedrooms) {
+        //     if (addAnd) queryText += ' AND';
+        //     queryParams.push(bedrooms);
+        //     queryText += ` bedrooms = $${queryParams.length}`;
+        //     addAnd = true;
+        // }
+        // if (year_built) {
+        //     if (addAnd) queryText += ' AND';
+        //     queryParams.push(year_built);
+        //     queryText += ` year_built = $${queryParams.length}`;
+        //     addAnd = true;
+        // }
+        // if (area_sqft) {
+        //     if (addAnd) queryText += ' AND';
+        //     queryParams.push(area_sqft);
+        //     queryText += ` area_sqft = $${queryParams.length}`;
+        //     addAnd = true;
+        // }
+        // if (price_per_sqft) {
+        //     if (addAnd) queryText += ' AND';
+        //     queryParams.push(price_per_sqft);
+        //     queryText += ` price_per_sqft = $${queryParams.length}`;
+        //     addAnd = true;
+        // }
 
 
-        const client = await pool.connect();
 
         console.log(queryText);
         const { rows } = await client.query(queryText, queryParams);

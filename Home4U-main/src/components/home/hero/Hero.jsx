@@ -14,7 +14,7 @@ const Hero = ({ uid }) => {
   const [searchResults, setSearchResults] = useState([]);
 
   const [Location, setLocation] = useState('');
-  const handleLocationChange = (event) => {
+  const handleskillChange = (event) => {
     setLocation(event.target.value);
   };
   const [listingType, setListingType] = useState('Buy');
@@ -87,7 +87,7 @@ const Hero = ({ uid }) => {
           <form className='flex' onSubmit={handleSubmit}>
             <div className='box '>
               <span>Interested Field</span>
-              <input type='text' id="myInput" placeholder='' value={Location} onChange={handleLocationChange} />
+              {/* <input type='text' id="myInput" placeholder='' value={skills} onChange={handleskillChange} /> */}
             </div>
 
             <div className='box'>
