@@ -1,4 +1,4 @@
-# Placement Portal
+# placify
 
 Placement Portal is a web application designed to streamline the job placement process. It provides a platform for both employers and job seekers to connect efficiently. Employers can post job listings, and job seekers can search for and apply to these listings.
 
