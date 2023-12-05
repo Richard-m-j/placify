@@ -106,7 +106,7 @@ const AddListing = () => {
                 style={{ padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }}
             >
                 <option value="">Branch</option>
-                <option value="Computer Science">Computer</option>
+                <option value="Computer">Computer</option>
                 <option value="Electronics">Electronics</option>
                 <option value="Electrical">Electrical</option>
                 <option value="Mechanical">Mechanical</option>

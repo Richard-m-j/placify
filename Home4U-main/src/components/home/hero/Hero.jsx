@@ -10,7 +10,7 @@ import axios from "axios";
 import Recent from "../recent/Recent.jsx";
 const Hero = ({ uid }) => {
   const [showMoreMenu, setShowMoreMenu] = useState(false);
-  const [listings, setListings] = useState([]);
+  const [jobs, setjobs] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
 
   const [skills, setskill] = useState('');
@@ -21,9 +21,9 @@ const Hero = ({ uid }) => {
   const handleListingTypeChange = (event) => {
     setListingType(event.target.value);
   };
-  const [type, settype] = useState('');
+  const [branch, setbranch] = useState('');
   const handletypeChange = (event) => {
-    settype(event.target.value);
+    setbranch(event.target.value);
   };
 
   const [price, setprice] = useState();
@@ -37,13 +37,11 @@ const Hero = ({ uid }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(skills);
-    console.log(type);
+    console.log(branch);
     const response = await axios.get('http://localhost:3000/api/listing/listings/search', {
       params: {
-        type,
-        Location,
-        price,
-        bedrooms,
+        branch,
+        skills,
       },
       withCredentials: true,
     });
@@ -52,7 +50,7 @@ const Hero = ({ uid }) => {
     // );
     // const data = await response.json();
 
-    setListings(response.data);
+    setjobs(response.data);
   };
 
   const searchListings = async () => {
@@ -94,7 +92,7 @@ const Hero = ({ uid }) => {
 
             <div className='box'>
               <span>Branch</span>
-              <DropdownList defaultValue="Branch" data={["", "Computer", "Electronics", "Electrical", "Mechanical","Civil"]} value={type} onChange={settype} />
+              <DropdownList defaultValue="Branch" data={["", "Computer", "Electronics", "Electrical", "Mechanical","Civil"]} value={branch} onChange={setbranch} />
             </div>
             <div className="additional">
               {/* <button className='btnmore' onClick={(e) => toggleMoreMenu(e)}>
@@ -141,7 +139,7 @@ const Hero = ({ uid }) => {
 
         </div>
       </section>
-      <Recent searchResults={listings} heading={"Search Results"} />
+      <Recent searchResults={jobs} heading={"Search Results"} />
     </>
 
   );

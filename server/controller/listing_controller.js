@@ -92,7 +92,9 @@ const search_listings = async (req, res, next) => {
         }
 
         console.log(queryText);
+        console.log(queryParams);
         const { rows } = await client.query(queryText, queryParams);
+        console.log(rows);
         res.status(200).json(rows);
     } catch (error) {
         next(error);
