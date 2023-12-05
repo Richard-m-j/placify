@@ -7,9 +7,39 @@ import Location from "./location/Location";
 import Recent from "./recent/Recent";
 import { useLocation } from 'react-router-dom';
 
+const cookies = require("js-cookie");
+
 const Home = () => {
   const location = useLocation();
-  const uid = location.state.uid;
+  const [uid, setuid] = useState(null);//
+
+  // const uid = location.state.uid;
+    const getUid = async () => {
+    try {
+      const token = cookies.get('access_token');
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+
+      const tuid = await JSON.parse(jsonPayload).uid;
+      setuid(tuid);
+      console.log("hii" + uid);
+    } catch (error) {
+      try {
+        uid = location.state.uid;
+        console.log(uid);
+      } catch (error) {
+      }
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+
+    getUid();
+  }, []);
   const [searchResults, setSearchResults] = useState([]);
   const searchListings = async () => {
     try {

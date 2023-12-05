@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Heading from "../../common/Heading";
 import DropdownList from "react-widgets/DropdownList";
 import Box from "@mui/material/Box";
-import Slider from "@mui/material/Slider";
+
 import "react-widgets/styles.css";
 import "./hero.css";
 import RecentCard from "../recent/RecentCard.jsx";
@@ -13,7 +13,7 @@ const Hero = ({ uid }) => {
   const [listings, setListings] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
 
-  const [Location, setskill] = useState('');
+  const [skills, setskill] = useState('');
   const handleskillChange = (event) => {
     setskill(event.target.value);
   };
@@ -36,7 +36,7 @@ const Hero = ({ uid }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(Location);
+    console.log(skills);
     console.log(type);
     const response = await axios.get('http://localhost:3000/api/listing/listings/search', {
       params: {

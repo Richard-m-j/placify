@@ -16,7 +16,6 @@ const Footer = () => {
           </div>
         </div>
       </section>
-
       <footer>
         <div className='container'>
           <div className='box'>

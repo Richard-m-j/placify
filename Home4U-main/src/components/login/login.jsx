@@ -7,17 +7,17 @@ function Login() {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
+        const handleInputChange = (event) => {
+            const { name, value } = event.target;
 
-        if (name === 'email') {
-            setEmail(value);
-        } else if (name === 'password') {
-            setPassword(value);
-        }
-    };
+            if (name === 'email') {
+                setEmail(value);
+            } else if (name === 'password') {
+                setPassword(value);
+            }
+        };
 
-    const handleSubmit = (event) => {
+    const   handleSubmit = (event) => {
         event.preventDefault();
         console.log('handleSubmit called');
 
@@ -64,7 +64,7 @@ function Login() {
                     onChange={handleInputChange}
                 />
 
-                <button type="submit">Login</button>
+                <button type="submit" onClick={handleSubmit}>Login</button>
             </form>
         </div>
     );

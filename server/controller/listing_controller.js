@@ -5,10 +5,11 @@ const error_handler = require('../utils/error_handler');
 const create_listing = async (req, res, next) => {
     try {
         const client = await pool.connect();
-        const { name, location, type, price_per_sqft, user_uid, image_urls, description, bedrooms, bathrooms, area_sqft, year_built } = req.body;
+        const { title, description, branch, skills, salary } = req.body;
         console.log(req.body);
-        const newListingQuery = `INSERT INTO jobs (name, location, type, price_per_sqft, user_uid, image_urls, description, bedrooms, bathrooms, area_sqft, year_built) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`;
-        await client.query(newListingQuery, [name, location, type, price_per_sqft, user_uid, image_urls, description, bedrooms, bathrooms, area_sqft, year_built]);
+
+        const newListingQuery = `INSERT INTO jobs (title, description, branch, skills, salary) VALUES ($1, $2, $3, $4, $5)`;
+        await client.query(newListingQuery, [title, description, branch, skills, salary]);
         client.release();
         res.status(201).json({ message: 'Listing created successfully' });
     } catch (error) {
@@ -17,21 +18,18 @@ const create_listing = async (req, res, next) => {
     }
 }
 
-
-
 const update_user_listing = async (req, res, next) => {
     try {
         const listingId = req.params.lid;
 
         const client = await pool.connect();
         const valid = await client.query(`SELECT user_uid FROM listing WHERE property_id = $1`, [listingId]);
-        const listingUserUid = valid.rows[0].user_uid;
+        const listingUserUid = valid.rows[0]?.user_uid;
 
-        if (!valid) {
-            return next(error_handler(400, "no listing found"));
+        if (!valid.rows || valid.rows.length === 0) {
+            return next(error_handler(400, "No listing found"));
         }
-        if (req.user.uid != listingUserUid) {
-
+        if (req.user.uid !== listingUserUid) {
             return next(error_handler(404, "You can only update your own listing"));
         }
 
@@ -54,7 +52,6 @@ const update_user_listing = async (req, res, next) => {
         client.release();
         res.status(200).json({ message: 'Listing updated successfully' });
     } catch (error) {
-
         next(error);
     }
 }
@@ -62,7 +59,7 @@ const update_user_listing = async (req, res, next) => {
 const get_all_listing = async (req, res, next) => {
     try {
         const client = await pool.connect();
-        const allListingQuery = `SELECT * FROM listing`;
+        const allListingQuery = `SELECT * FROM jobs`;
         const result = await client.query(allListingQuery);
         client.release();
         console.log(result.rows);
@@ -74,10 +71,7 @@ const get_all_listing = async (req, res, next) => {
 
 const search_listings = async (req, res, next) => {
     try {
-        console.log(req.query);
-
-        // const { location, type, bathrooms, bedrooms, year_built, price_per_sqft, area_sqft } = req.query;
-        const { skills , branch } = req.query;
+        const { skills, branch } = req.query;
         let queryText = 'SELECT * FROM jobs WHERE';
         let queryParams = [];
         let addAnd = false;
@@ -85,8 +79,8 @@ const search_listings = async (req, res, next) => {
 
         if (branch) {
             if (addAnd) queryText += ' AND';
-            queryParams.push(type);
-            queryText += ` type = $${queryParams.length}`;
+            queryParams.push(branch);
+            queryText += ` branch = $${queryParams.length}`;
             addAnd = true;
         }
 
@@ -96,32 +90,6 @@ const search_listings = async (req, res, next) => {
             queryText += ` skills = $${queryParams.length}`;
             addAnd = true;
         }
-        // if (bedrooms) {
-        //     if (addAnd) queryText += ' AND';
-        //     queryParams.push(bedrooms);
-        //     queryText += ` bedrooms = $${queryParams.length}`;
-        //     addAnd = true;
-        // }
-        // if (year_built) {
-        //     if (addAnd) queryText += ' AND';
-        //     queryParams.push(year_built);
-        //     queryText += ` year_built = $${queryParams.length}`;
-        //     addAnd = true;
-        // }
-        // if (area_sqft) {
-        //     if (addAnd) queryText += ' AND';
-        //     queryParams.push(area_sqft);
-        //     queryText += ` area_sqft = $${queryParams.length}`;
-        //     addAnd = true;
-        // }
-        // if (price_per_sqft) {
-        //     if (addAnd) queryText += ' AND';
-        //     queryParams.push(price_per_sqft);
-        //     queryText += ` price_per_sqft = $${queryParams.length}`;
-        //     addAnd = true;
-        // }
-
-
 
         console.log(queryText);
         const { rows } = await client.query(queryText, queryParams);
